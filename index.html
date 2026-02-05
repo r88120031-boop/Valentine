@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Valentine 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f9a4c6, #ffb6c1); /* romantic pink gradient */
+  overflow-x: hidden;
+  color: #330033;
+  text-align: center;
+}
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 40px;
+  background: rgba(255, 228, 240, 0.8); /* soft romantic container */
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  background: linear-gradient(90deg, #ff1e4d, #ff85a2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 30px;
+}
+
+p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  text-align: left;
+  margin: 15px 0;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 15px;
+  transition: 0.3s;
+}
+
+.yes { background: #ff4d6d; color: white; }
+.yes:hover { background: #ff1e4d; }
+.no { background: #fff; color: #ff4d6d; }
+
+.heart-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top:0; left:0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.heart-bg div {
+  position: absolute;
+  font-size: 24px;
+  animation: float 6s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.9;
+  border-radius: 50%;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<div class="heart-bg" id="heart-bg"></div>
+
+<div class="container" id="container">
+  <h1>My Sweet Valentine 💖</h1>
+  <div id="story"></div>
+  <button class="yes" id="start-btn">Open 💌</button>
+</div>
+
+<script>
+const storyContainer = document.getElementById('story');
+const startBtn = document.getElementById('start-btn');
+
+const story = [
+  "Dear Prakashuuuuu💕,",
+  "From the moment I met you, my heart felt lighter and brighter 🌟.",
+  "Every laugh, every smile, every glance from you feels like magic ✨.",
+  "I wanted to make this Valentine special, so here is my cute little message for you 💌.",
+  "Will you be my Valentine forever? ❤️"
+];
+
+let step = 0;
+
+// Show story sentences one by one with fade-in
+function showNextLine(){
+  if(step < story.length){
+    const p = document.createElement('p');
+    p.textContent = story[step];
+    storyContainer.appendChild(p);
+    // Fade in
+    setTimeout(()=>{ p.style.opacity = 1; }, 50);
+    step++;
+    setTimeout(showNextLine, 1200); // next line appears after 1.2s
+  } else {
+    showYesNo();
+  }
+}
+
+// Show Yes/No buttons
+function showYesNo(){
+  const yesBtn = document.createElement('button');
+  yesBtn.className = 'yes';
+  yesBtn.textContent = 'Yes 💖';
+  yesBtn.addEventListener('click', yesClick);
+
+  const noBtn = document.createElement('button');
+  noBtn.className = 'no';
+  noBtn.textContent = 'No 😅';
+  noBtn.addEventListener('click', noClick);
+
+  container.appendChild(yesBtn);
+  container.appendChild(noBtn);
+}
+
+// Yes click: final message + confetti
+function yesClick(){
+  const p = document.createElement('p');
+  p.textContent = "Thank you,Having you in my life means everything to me 💕";
+  p.style.opacity = 0;
+  storyContainer.appendChild(p);
+  setTimeout(()=>{ p.style.opacity = 1; }, 50);
+  createConfetti();
+}
+
+
+// No click: playful alert
+function noClick(){
+  alert("Wait.. this decision might leave a mark! think twice💖");
+}
+
+// Floating hearts background
+const heartBg = document.getElementById('heart-bg');
+for(let i=0;i<50;i++){
+  const heart = document.createElement('div');
+  heart.innerText = '❤️';
+  heart.style.left = Math.random()*100+'%';
+  heart.style.animationDuration = (4+Math.random()*4)+'s';
+  heart.style.fontSize = (15+Math.random()*20)+'px';
+  heartBg.appendChild(heart);
+}
+
+// Confetti effect
+function createConfetti(){
+  for(let i=0;i<50;i++){
+    const c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = Math.random()*window.innerWidth+'px';
+    c.style.top = Math.random()*window.innerHeight+'px';
+    c.style.background = ['#ff1e4d','#ff69b4','#ff85a2','#ffc1e3'][Math.floor(Math.random()*4)];
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+
+// Start button
+startBtn.addEventListener('click', ()=>{
+  startBtn.remove();
+  showNextLine();
+});
+
+// Yes click: final message + confetti
+function yesClick(){
+  // Remove Yes/No buttons
+  const yesBtn = document.querySelector('.yes');
+  const noBtn = document.querySelector('.no');
+  if(yesBtn) yesBtn.remove();
+  if(noBtn) noBtn.remove();
+
+  // Show final message
+  const p = document.createElement('p');
+  p.textContent = "Thank you,Having you in my life means everything to me 💕";
+  p.style.opacity = 0;
+  storyContainer.appendChild(p);
+  setTimeout(()=>{ p.style.opacity = 1; }, 50);
+
+  createConfetti();
+}
+</script>
+
+</body>
+</html>
